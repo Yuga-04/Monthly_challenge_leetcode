@@ -1,3 +1,5 @@
+//Question : https://leetcode.com/problems/count-the-number-of-powerful-integers/description/
+
 class Solution {
     public long numberOfPowerfulInt(long start, long finish, int limit, String s) {
         long suffix = 0L;
