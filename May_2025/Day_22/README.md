@@ -45,9 +45,7 @@ Output: 1
 
 Explanation:
 
-After removing queries[2], nums can still be converted to a zero array.
-
-
+        After removing queries[2], nums can still be converted to a zero array.
 	Using queries[0], decrement nums[0] and nums[2] by 1 and nums[1] by 0.
 	Using queries[1], decrement nums[0] and nums[2] by 1 and nums[1] by 0.
 
@@ -56,26 +54,26 @@ After removing queries[2], nums can still be converted to a zero array.
 Example 2:
 
 
-Input: nums = [1,1,1,1], queries = [[1,3],[0,2],[1,3],[1,2]]
+        Input: nums = [1,1,1,1], queries = [[1,3],[0,2],[1,3],[1,2]]
 
-Output: 2
+        Output: 2
 
 Explanation:
 
-We can remove queries[2] and queries[3].
+        We can remove queries[2] and queries[3].
 
 ### ✨ Example 3
 
 Example 3:
 
 
-Input: nums = [1,2,3,4], queries = [[0,3]]
+        Input: nums = [1,2,3,4], queries = [[0,3]]
 
-Output: -1
+        Output: -1
 
 Explanation:
 
-nums cannot be converted to a zero array even after using all the queries.
+          nums cannot be converted to a zero array even after using all the queries.
 
 
 &nbsp;
@@ -129,6 +127,6 @@ class Solution {
  ```
 ## 🧪 Sample Test Case
 
-Input: nums = [2,0,2], queries = [[0,2],[0,2],[1,1]] int operations = 0; 
-Output: 1
+        Input: nums = [2,0,2], queries = [[0,2],[0,2],[1,1]] int operations = 0; 
+        Output: 1
 
