@@ -1,25 +1,26 @@
-# 📌 Day 22: 3647. Zero Array Transformation III 🎯
+# 📌 Day 24: 3362. Zero Array Transformation III 🎯
 
-**🔗 LeetCode Link:** [3647. Zero Array Transformation III](https://leetcode.com/problems/zero-array-transformation-iii)
+**🔗 LeetCode Link:** [3362. Zero Array Transformation III](https://leetcode.com/problems/zero-array-transformation-iii/description)
 
 ---
 
 ## 🧩 Problem Description
 
-You are given an integer array nums of length n and a 2D array queries where queries[i] = [li, ri].
+<p>You are given an integer array <code>nums</code> of length <code>n</code> and a 2D array <code>queries</code> where <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code>.</p>
 
-Each queries[i] represents the following action on nums:
+<p>Each <code>queries[i]</code> represents the following action on <code>nums</code>:</p>
 
+<ul>
+	<li>Decrement the value at each index in the range <code>[l<sub>i</sub>, r<sub>i</sub>]</code> in <code>nums</code> by <strong>at most</strong><strong> </strong>1.</li>
+	<li>The amount by which the value is decremented can be chosen <strong>independently</strong> for each index.</li>
+</ul>
 
-	Decrement the value at each index in the range [li, ri] in nums by at most 1.
-	The amount by which the value is decremented can be chosen independently for each index.
+<p>A <strong>Zero Array</strong> is an array with all its elements equal to 0.</p>
 
+<p>Return the <strong>maximum </strong>number of elements that can be removed from <code>queries</code>, such that <code>nums</code> can still be converted to a <strong>zero array</strong> using the <em>remaining</em> queries. If it is not possible to convert <code>nums</code> to a <strong>zero array</strong>, return -1.</p>
 
-A Zero Array is an array with all its elements equal to 0.
-
-Return the maximum number of elements that can be removed from queries, such that nums can still be converted to a zero array using the remaining queries. If it is not possible to convert nums to a zero array, return -1.
-
-&nbsp;
+<p>&nbsp;</p>
+<p><strong class="example">
 
 ---
 
@@ -36,97 +37,118 @@ Return the maximum number of elements that can be removed from queries, such tha
 
 ### ✨ Example 1
 
-Example 1:
+Example 1:</strong></p>
 
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,0,2], queries = [[0,2],[0,2],[1,1]]</span></p>
 
-Input: nums = [2,0,2], queries = [[0,2],[0,2],[1,1]]
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-Output: 1
+<p><strong>Explanation:</strong></p>
 
-Explanation:
+<p>After removing <code>queries[2]</code>, <code>nums</code> can still be converted to a zero array.</p>
 
-        After removing queries[2], nums can still be converted to a zero array.
-	Using queries[0], decrement nums[0] and nums[2] by 1 and nums[1] by 0.
-	Using queries[1], decrement nums[0] and nums[2] by 1 and nums[1] by 0.
+<ul>
+	<li>Using <code>queries[0]</code>, decrement <code>nums[0]</code> and <code>nums[2]</code> by 1 and <code>nums[1]</code> by 0.</li>
+	<li>Using <code>queries[1]</code>, decrement <code>nums[0]</code> and <code>nums[2]</code> by 1 and <code>nums[1]</code> by 0.</li>
+</ul>
+</div>
+
+<p><strong class="example">
 
 ### ✨ Example 2
 
-Example 2:
+Example 2:</strong></p>
 
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,1,1,1], queries = [[1,3],[0,2],[1,3],[1,2]]</span></p>
 
-        Input: nums = [1,1,1,1], queries = [[1,3],[0,2],[1,3],[1,2]]
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-        Output: 2
+<p><strong>Explanation:</strong></p>
 
-Explanation:
+<p>We can remove <code>queries[2]</code> and <code>queries[3]</code>.</p>
+</div>
 
-        We can remove queries[2] and queries[3].
+<p><strong class="example">
 
 ### ✨ Example 3
 
-Example 3:
+Example 3:</strong></p>
 
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4], queries = [[0,3]]</span></p>
 
-        Input: nums = [1,2,3,4], queries = [[0,3]]
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
 
-        Output: -1
+<p><strong>Explanation:</strong></p>
 
-Explanation:
+<p><code>nums</code> cannot be converted to a zero array even after using all the queries.</p>
+</div>
 
-          nums cannot be converted to a zero array even after using all the queries.
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-
-&nbsp;
-Constraints:
-
-
-	1 <= nums.length <= 105
-	0 <= nums[i] <= 105
-	1 <= queries.length <= 105
-	queries[i].length == 2
-	0 <= li <= ri <= nums.length
-
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= queries.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>queries[i].length == 2</code></li>
+	<li><code>0 &lt;= l<sub>i</sub> &lt;= r<sub>i</sub> &lt; nums.length</code></li>
+</ul>
 
 ---
 
 ## ✅ Code (Java)
 
 ```java
-
 class Solution {
-    public int maxRemoval(int[] nums, int[][] queries) {
-        Arrays.sort(queries, (a, b) -> a[0] - b[0]);
-        Queue<Integer> pq = new PriorityQueue<>((a,b) -> b-a);
+    public static int maxRemoval(int[] nums, int[][] queries) {
+        int n = nums.length, q = queries.length;
+        List<List<Integer>> qEnd = new ArrayList<>();
+        for (int i = 0; i < n; i++) qEnd.add(new ArrayList<>());
+        for (int[] query : queries) {
+            qEnd.get(query[0]).add(query[1]);
+        }
 
-         int[] ends = new int[nums.length + 1];
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int[] cntQ = new int[n + 1];
+        int dec = 0;
 
-         int operations = 0;
-
-        int j = 0;
-         for (int i = 0; i < nums.length; i++) {
-            operations += ends[i];
-            
-            while (j < queries.length && queries[j][0] == i) {
-                pq.offer(queries[j++][1]);
+        for (int i = 0; i < n; i++) {
+            dec += cntQ[i];
+            for (int end : qEnd.get(i)) {
+                pq.offer(end);
             }
 
-            while (operations < nums[i] && !pq.isEmpty() && pq.peek() >= i) {
-                operations++;
-                ends[pq.poll() + 1]--;
+            int x = nums[i];
+            while (x > dec && !pq.isEmpty() && pq.peek() >= i) {
+                int k = pq.poll();
+                cntQ[k + 1]--;
+                dec++;
             }
 
-            if (operations < nums[i]) {
-                return -1;
-            }
-         }
+            if (x > dec) return -1;
+        }
 
         return pq.size();
     }
 }
+```
 
- ```
+---
+
 ## 🧪 Sample Test Case
 
-        Input: nums = [2,0,2], queries = [[0,2],[0,2],[1,1]] int operations = 0; 
-        Output: 1
+
+Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,0,2], queries = [[0,2],[0,2],[1,1]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
+
+
+<p><strong class="example">
+
 
