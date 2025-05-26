@@ -18,10 +18,10 @@ Return the largest color value of any valid path in the given graph, or -1 if th
 
 ## 🧠 Topics
 
-Hash Table
-Dynamic Programming
-GraphTopological SortMemoization
-Counting
+- Hash Table
+- Dynamic Programming
+- GraphTopological SortMemoization
+- Counting
 ---
 
 ## 🧩 Examples
