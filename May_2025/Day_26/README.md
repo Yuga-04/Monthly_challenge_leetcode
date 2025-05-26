@@ -1,4 +1,4 @@
-# 📌 Day 25: 1857. Largest Color Value in a Directed Graph 🎯
+# 📌 Day 26: 1857. Largest Color Value in a Directed Graph 🎯
 
 **🔗 LeetCode Link:** [1857. Largest Color Value in a Directed Grap](https://leetcode.com/problems/largest-color-value-in-a-directed-graph/)
 
