@@ -167,8 +167,6 @@ Example 1:</strong></p>
 <p><strong>Input:</strong> <span class="example-io">edges1 = [[0,1],[0,2],[2,3],[2,4]], edges2 = [[0,1],[0,2],[0,3],[2,7],[1,4],[4,5],[4,6]], k = 2</span></p>
 
 <p><strong>Output:</strong> <span class="example-io">[9,7,9,8,8]</span></p>
-
-<p><strong>Explanation:</strong></p>
 <p><strong class="example">
 
 
