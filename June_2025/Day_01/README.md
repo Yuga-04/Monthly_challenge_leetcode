@@ -58,7 +58,7 @@ Example 2:</strong></p>
 
 ## ✅ Code (Java)
 
-```
+```java
 class Solution {
     public long distributeCandies(int n, int limit) {
         return combCount(n)
