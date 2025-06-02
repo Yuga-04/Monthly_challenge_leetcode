@@ -1,6 +1,6 @@
-# 📌 Day 2: Unknown. Candy 🎯
+# 📌 Day 2: 153. Candy 🎯
 
-**🔗 LeetCode Link:** [Unknown. Candy](https://leetcode.com/problems/candy/description/)
+**🔗 LeetCode Link:** [153. Candy](https://leetcode.com/problems/candy/description/)
 
 ---
 
