@@ -83,55 +83,55 @@ It can be shown that it is not possible to obtain a difference smaller than 1.
 
 ```java
 class Solution {
-    public int minimumDifference(int[] nums) {
-        int n = nums.length / 3;
+ public long minimumDifference(int[] nums) {
+     int n = nums.length, k = n / 3;
+     long[] leftMins = new long[n];   // sum of k smallest from left
+     long[] rightMaxs = new long[n];  // sum of k largest from right
+     long leftSum = 0, rightSum = 0, minDiff = Long.MAX_VALUE;
 
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        long sum = 0;
-        long[] prefix = new long[n + 1];
+     PriorityQueue<Integer> maxLeftHeap = new PriorityQueue<>((a, b) -> b - a); // max-heap
+     PriorityQueue<Integer> minRightHeap = new PriorityQueue<>();              // min-heap
 
-        for (int i = 0; i < n; i++) {
-            maxHeap.offer(nums[i]);
-            sum += nums[i];
-        }
-        prefix[0] = sum;
+     // Build leftMins
+     for (int i = 0; i < k; i++) {
+         maxLeftHeap.offer(nums[i]);
+         leftSum += nums[i];
+     }
+     leftMins[k - 1] = leftSum;
 
-        for (int i = n; i < 2 * n; i++) {
-            if (!maxHeap.isEmpty() && nums[i] < maxHeap.peek()) {
-                sum -= maxHeap.poll();
-                maxHeap.offer(nums[i]);
-                sum += nums[i];
-            }
-            prefix[i - n + 1] = sum;
-        }
+     for (int i = k; i < n - k; i++) {
+         int x = nums[i];
+         if (x < maxLeftHeap.peek()) {
+             leftSum += x - maxLeftHeap.poll();
+             maxLeftHeap.offer(x);
+         }
+         leftMins[i] = leftSum;
+     }
 
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        sum = 0;
-        long[] suffix = new long[n + 1];
+     // Build rightMaxs
+     for (int i = n - 1; i >= n - k; i--) {
+         minRightHeap.offer(nums[i]);
+         rightSum += nums[i];
+     }
+     rightMaxs[n - k] = rightSum;
 
-        for (int i = 3 * n - 1; i >= 2 * n; i--) {
-            minHeap.offer(nums[i]);
-            sum += nums[i];
-        }
-        suffix[n] = sum;
+     for (int i = n - k - 1; i >= k - 1; i--) {
+         int x = nums[i];
+         if (x > minRightHeap.peek()) {
+             rightSum += x - minRightHeap.poll();
+             minRightHeap.offer(x);
+         }
+         rightMaxs[i] = rightSum;
+     }
 
-        for (int i = 2 * n - 1; i >= n; i--) {
-            if (!minHeap.isEmpty() && nums[i] > minHeap.peek()) {
-                sum -= minHeap.poll();
-                minHeap.offer(nums[i]);
-                sum += nums[i];
-            }
-            suffix[i - n] = sum;
-        }
+     // Find minimum difference
+     for (int i = k - 1; i < n - k; i++) {
+         minDiff = Math.min(minDiff, leftMins[i] - rightMaxs[i + 1]);
+     }
 
-        long ans = Long.MAX_VALUE;
-        for (int i = 0; i <= n; i++) {
-            ans = Math.min(ans, prefix[i] - suffix[i]);
-        }
-
-        return (int) ans;
-    }
-}
+     return minDiff;
+ }
+}   
 ```
 
 ---
