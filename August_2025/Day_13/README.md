@@ -1,6 +1,6 @@
 # 📌 Day 13: 326. Power of Three 🎯
 
-**🔗 LeetCode Link:** [Unknown. Power of Three](https://leetcode.com/problems/power-of-three/)
+**🔗 LeetCode Link:** [326. Power of Three](https://leetcode.com/problems/power-of-three/)
 
 ---
 
