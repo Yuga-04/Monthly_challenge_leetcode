@@ -77,5 +77,3 @@ Example 1:</strong></p>
 <pre><strong>Input:</strong> n = 16
 <strong>Output:</strong> true
 </pre><p><strong class="example">
-
-

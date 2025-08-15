@@ -1,6 +1,6 @@
-# 📌 Day 14: Unknown. Largest 3 🎯
+# 📌 Day 14: 2264. Largest 3 🎯
 
-**🔗 LeetCode Link:** [Unknown. Largest 3](https://leetcode.com/problems/largest-3-same-digit-number-in-string/)
+**🔗 LeetCode Link:** [2264. Largest 3](https://leetcode.com/problems/largest-3-same-digit-number-in-string/)
 
 ---
 
