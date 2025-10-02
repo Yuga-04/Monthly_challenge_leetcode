@@ -79,7 +79,8 @@ class Solution {
         }
         return nums[0];
     }
-}```
+}
+```
 
 ---
 

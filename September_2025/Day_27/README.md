@@ -75,7 +75,8 @@ class Solution {
 
         return area;
     }
-}```
+}
+```
 
 ---
 
