@@ -1,0 +1,162 @@
+# 📌 Day 22: 3347. Maximum Frequency of an Element After Performing Operations II 🎯
+
+**🔗 LeetCode Link:** [3347. Maximum Frequency of an Element After Performing Operations II](https://leetcode.com/problems/maximum-frequency-of-an-element-after-performing-operations-ii/)
+
+---
+
+## 🧩 Problem Description
+
+<p>You are given an integer array <code>nums</code> and two integers <code>k</code> and <code>numOperations</code>.</p>
+
+<p>You must perform an <strong>operation</strong> <code>numOperations</code> times on <code>nums</code>, where in each operation you:</p>
+
+<ul>
+	<li>Select an index <code>i</code> that was <strong>not</strong> selected in any previous operations.</li>
+	<li>Add an integer in the range <code>[-k, k]</code> to <code>nums[i]</code>.</li>
+</ul>
+
+<p>Return the <strong>maximum</strong> possible <span data-keyword="frequency-array">frequency</span> of any element in <code>nums</code> after performing the <strong>operations</strong>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">
+
+---
+
+## 🧠 Topics
+
+- Array
+- Binary Search
+- Sliding Window
+- Sorting
+- Prefix Sum
+---
+
+## 🧩 Examples
+
+### ✨ Example 1
+
+Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,4,5], k = 1, numOperations = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We can achieve a maximum frequency of two by:</p>
+
+<ul>
+	<li>Adding 0 to <code>nums[1]</code>, after which <code>nums</code> becomes <code>[1, 4, 5]</code>.</li>
+	<li>Adding -1 to <code>nums[2]</code>, after which <code>nums</code> becomes <code>[1, 4, 4]</code>.</li>
+</ul>
+</div>
+
+<p><strong class="example">
+
+### ✨ Example 2
+
+Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [5,11,20,20], k = 5, numOperations = 1</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We can achieve a maximum frequency of two by:</p>
+
+<ul>
+	<li>Adding 0 to <code>nums[1]</code>.</li>
+</ul>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>0 &lt;= k &lt;= 10<sup>9</sup></code></li>
+	<li><code>0 &lt;= numOperations &lt;= nums.length</code></li>
+</ul>
+
+---
+
+## ✅ Code (Java)
+
+```java
+import java.util.*;
+
+class Solution {
+    private int check(int[] nums, int n, int t, int m) {
+        long nL = n;
+        long tL = t;
+        int l = lowerBound(nums, nL);
+        int h = upperBound(nums, nL);
+        int ll = lowerBound(nums, nL - tL);
+        int hh = upperBound(nums, nL + tL);
+        int res = (hh - h) + (l - ll);
+        return Math.min(m, res) + (h - l);
+    }
+
+    private int lowerBound(int[] arr, long target) {
+        int l = 0, r = arr.length;
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (arr[mid] < target) l = mid + 1;
+            else r = mid;
+        }
+        return l;
+    }
+
+    private int upperBound(int[] arr, long target) {
+        int l = 0, r = arr.length;
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (arr[mid] <= target) l = mid + 1;
+            else r = mid;
+        }
+        return l;
+    }
+
+    public int maxFrequency(int[] nums, int k, int numOperations) {
+        int m = numOperations;
+        Arrays.sort(nums);
+        int ans = 1;
+        for (int i = 0; i < nums.length - 1; i++) {
+            ans = Math.max(ans, check(nums, nums[i], k, m));
+            ans = Math.max(ans, check(nums, nums[i] - k, k, m));
+            ans = Math.max(ans, check(nums, nums[i] + k, k, m));
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+## 🧪 Sample Test Case
+
+
+Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,4,5], k = 1, numOperations = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We can achieve a maximum frequency of two by:</p>
+
+<ul>
+	<li>Adding 0 to <code>nums[1]</code>, after which <code>nums</code> becomes <code>[1, 4, 5]</code>.</li>
+	<li>Adding -1 to <code>nums[2]</code>, after which <code>nums</code> becomes <code>[1, 4, 4]</code>.</li>
+</ul>
+</div>
+
+<p><strong class="example">
+
+
