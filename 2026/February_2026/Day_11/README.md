@@ -1,6 +1,6 @@
-# 📌 Day 11: 3719. Longest Balanced Subarray I 🎯
+# 📌 Day 11: 3721. Longest Balanced Subarray II 🎯
 
-**🔗 LeetCode Link:** [3719. Longest Balanced Subarray I](https://leetcode.com/problems/longest-balanced-subarray-i/)
+**🔗 LeetCode Link:** [3721. Longest Balanced Subarray II](https://leetcode.com/problems/longest-balanced-subarray-ii/)
 
 ---
 
@@ -87,7 +87,7 @@ Example 3:</strong></p>
 <p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 1500</code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
@@ -97,29 +97,89 @@ Example 3:</strong></p>
 
 ```java
 class Solution {
-    private static int[] seen = new int[100001];
-    private static int leet = 0;
+    static class Node {
+        int mn, mx, lz;
+    }
+    int n;
+    Node[] seg;
+
+    void push(int node) {
+        int val = seg[node].lz;
+        if (val == 0) 
+            return;
+        int lc = node << 1, rc = lc | 1;
+        seg[lc].mn += val; seg[lc].mx += val; seg[lc].lz += val;
+        seg[rc].mn += val; seg[rc].mx += val; seg[rc].lz += val;
+
+        seg[node].lz = 0;
+    }
+
+    void pull(int node) {
+        int lc = node << 1, rc = lc | 1;
+        seg[node].mn = Math.min(seg[lc].mn, seg[rc].mn);
+        seg[node].mx = Math.max(seg[lc].mx, seg[rc].mx);
+    }
+
+    void update(int node, int segLeft, int segRight, int queryLeft, int queryRight, int addValue) {
+        if (queryLeft > queryRight) 
+            return;
+
+        if (queryLeft == segLeft && queryRight == segRight) {
+            seg[node].mn += addValue;
+            seg[node].mx += addValue;
+            seg[node].lz += addValue;
+            return;
+        }
+        push(node);
+        int mid = (segLeft + segRight) >> 1;
+        update(node << 1, segLeft, mid, queryLeft, Math.min(queryRight, mid), addValue);
+        update(node << 1 | 1, mid + 1, segRight, Math.max(queryLeft, mid + 1), queryRight, addValue);
+
+        pull(node);
+    }
+
+    int findFirst(int node, int segLeft, int segRight, int limit) {
+        if (segLeft > limit) 
+            return -1;
+        if (seg[node].mn > 0 || seg[node].mx < 0) 
+            return -1;
+        if (segLeft == segRight) 
+            return segLeft;
+
+        push(node);
+        int mid = (segLeft + segRight) >> 1;
+
+        int leftRes = findFirst(node << 1, segLeft, mid, limit);
+        if (leftRes != -1) 
+            return leftRes;
+
+        if (mid < limit) 
+            return findFirst(node << 1 | 1, mid + 1, segRight, limit);
+        return -1;
+    }
+
     public int longestBalanced(int[] nums) {
-        leet++; 
-        int n = nums.length;
-        int res = 0;
+        n = nums.length;
+        seg = new Node[4 * n + 5];
+        for (int i = 0; i < seg.length; i++) seg[i] = new Node();
+        int[] lastPos = new int[100005];
+        Arrays.fill(lastPos, -1);
+        int maxLen = 0;
+        for (int i = 0; i < n; i++) {
+            int val = nums[i];
+            int prev = lastPos[val];
+            int diff = (val & 1) == 1 ? -1 : 1;
 
-        for (int i = 0; i < n && n - i > res; i++) {
-            int[] A = new int[2];
-            int marker = (leet << 16) | (i + 1);
-            for (int j = i; j < n; j++) {
-                int val = nums[j];
-                if (seen[val] != marker) {
-                    seen[val] = marker;
-                    A[val & 1]++;
-                }
+            update(1, 0, n - 1, prev + 1, i, diff);
 
-                if (A[0] == A[1])
-                    res = Math.max(res, j - i + 1);
+            lastPos[val] = i;
+
+            int start = findFirst(1, 0, n - 1, i);
+            if (start != -1) {
+                maxLen = Math.max(maxLen, i - start + 1);
             }
         }
-
-        return res;
+        return maxLen;
     }
 }
 ```
