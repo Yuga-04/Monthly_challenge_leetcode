@@ -1,14 +1,18 @@
-# 📌 Day 1: 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers 🎯
+# 📌 Day 1: 3010. Divide an Array Into Subarrays With Minimum Cost I 🎯
 
-**🔗 LeetCode Link:** [1689. Partitioning Into Minimum Number Of Deci-Binary Numbers](https://leetcode.com/problems/partitioning-into-minimum-number-of-deci-binary-numbers/)
+**🔗 LeetCode Link:** [3010. Divide an Array Into Subarrays With Minimum Cost I](https://leetcode.com/problems/divide-an-array-into-subarrays-with-minimum-cost-i/)
 
 ---
 
 ## 🧩 Problem Description
 
-<p>A decimal number is called <strong>deci-binary</strong> if each of its digits is either <code>0</code> or <code>1</code> without any leading zeros. For example, <code>101</code> and <code>1100</code> are <strong>deci-binary</strong>, while <code>112</code> and <code>3001</code> are not.</p>
+<p>You are given an array of integers <code>nums</code> of length <code>n</code>.</p>
 
-<p>Given a string <code>n</code> that represents a positive decimal integer, return <em>the <strong>minimum</strong> number of positive <strong>deci-binary</strong> numbers needed so that they sum up to </em><code>n</code><em>.</em></p>
+<p>The <strong>cost</strong> of an array is the value of its <strong>first</strong> element. For example, the cost of <code>[1,2,3]</code> is <code>1</code> while the cost of <code>[3,4,1]</code> is <code>3</code>.</p>
+
+<p>You need to divide <code>nums</code> into <code>3</code> <strong>disjoint contiguous </strong><span data-keyword="subarray-nonempty">subarrays</span>.</p>
+
+<p>Return <em>the <strong>minimum</strong> possible <strong>sum</strong> of the cost of these subarrays</em>.</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">
@@ -17,8 +21,9 @@
 
 ## 🧠 Topics
 
-- String
-- Greedy
+- Array
+- Sorting
+- Enumeration
 ---
 
 ## 🧩 Examples
@@ -28,9 +33,12 @@
 Example 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> n = &quot;32&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 10 + 11 + 11 = 32
+<strong>Input:</strong> nums = [1,2,3,12]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The best possible way to form 3 subarrays is: [1], [2], and [3,12] at a total cost of 1 + 2 + 3 = 6.
+The other possible ways to form 3 subarrays are:
+- [1], [2,3], and [12] at a total cost of 1 + 2 + 12 = 15.
+- [1,2], [3], and [12] at a total cost of 1 + 3 + 12 = 16.
 </pre>
 
 <p><strong class="example">
@@ -40,8 +48,10 @@ Example 1:</strong></p>
 Example 2:</strong></p>
 
 <pre>
-<strong>Input:</strong> n = &quot;82734&quot;
-<strong>Output:</strong> 8
+<strong>Input:</strong> nums = [5,4,3]
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> The best possible way to form 3 subarrays is: [5], [4], and [3] at a total cost of 5 + 4 + 3 = 12.
+It can be shown that 12 is the minimum cost achievable.
 </pre>
 
 <p><strong class="example">
@@ -51,17 +61,18 @@ Example 2:</strong></p>
 Example 3:</strong></p>
 
 <pre>
-<strong>Input:</strong> n = &quot;27346209830709182346&quot;
-<strong>Output:</strong> 9
+<strong>Input:</strong> nums = [10,3,1,1]
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> The best possible way to form 3 subarrays is: [10,3], [1], and [1] at a total cost of 10 + 1 + 1 = 12.
+It can be shown that 12 is the minimum cost achievable.
 </pre>
 
 <p>&nbsp;</p>
 <p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>n</code> consists of only digits.</li>
-	<li><code>n</code> does not contain any leading zeros and represents a positive integer.</li>
+	<li><code>3 &lt;= n &lt;= 50</code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 50</code></li>
 </ul>
 
 ---
@@ -70,12 +81,19 @@ Example 3:</strong></p>
 
 ```java
 class Solution {
-    public int minPartitions(String n) {
-        int ans = 0;
-        for (int i = 0; i < n.length(); ++i) {
-            ans = Math.max(ans, n.charAt(i) - '0');
+    public int minimumCost(int[] nums) {
+        int firstMin = Integer.MAX_VALUE;
+        int secondMin = Integer.MAX_VALUE;
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < firstMin) {
+                secondMin = firstMin;
+                firstMin = nums[i];
+            } else if (nums[i] < secondMin) {
+                secondMin = nums[i];
+            }
         }
-        return ans;
+        return nums[0] + firstMin + secondMin;
     }
 }
 ```
@@ -88,9 +106,12 @@ class Solution {
 Example 1:</strong></p>
 
 <pre>
-<strong>Input:</strong> n = &quot;32&quot;
-<strong>Output:</strong> 3
-<strong>Explanation:</strong> 10 + 11 + 11 = 32
+<strong>Input:</strong> nums = [1,2,3,12]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The best possible way to form 3 subarrays is: [1], [2], and [3,12] at a total cost of 1 + 2 + 3 = 6.
+The other possible ways to form 3 subarrays are:
+- [1], [2,3], and [12] at a total cost of 1 + 2 + 12 = 15.
+- [1,2], [3], and [12] at a total cost of 1 + 3 + 12 = 16.
 </pre>
 
 <p><strong class="example">
