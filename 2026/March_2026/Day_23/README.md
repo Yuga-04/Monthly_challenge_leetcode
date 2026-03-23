@@ -1,0 +1,136 @@
+# 📌 Day 23: 1594. Maximum Non Negative Product in a Matrix 🎯
+
+**🔗 LeetCode Link:** [1594. Maximum Non Negative Product in a Matrix](https://leetcode.com/problems/maximum-non-negative-product-in-a-matrix/)
+
+---
+
+## 🧩 Problem Description
+
+<p>You are given a <code>m x n</code> matrix <code>grid</code>. Initially, you are located at the top-left corner <code>(0, 0)</code>, and in each step, you can only <strong>move right or down</strong> in the matrix.</p>
+
+<p>Among all possible paths starting from the top-left corner <code>(0, 0)</code> and ending in the bottom-right corner <code>(m - 1, n - 1)</code>, find the path with the <strong>maximum non-negative product</strong>. The product of a path is the product of all integers in the grid cells visited along the path.</p>
+
+<p>Return the <em>maximum non-negative product <strong>modulo</strong> </em><code>10<sup>9</sup> + 7</code>. <em>If the maximum product is <strong>negative</strong>, return </em><code>-1</code>.</p>
+
+<p>Notice that the modulo is performed after getting the maximum product.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">
+
+---
+
+## 🧠 Topics
+
+- Array
+- Dynamic Programming
+- Matrix
+---
+
+## 🧩 Examples
+
+### ✨ Example 1
+
+Example 1:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2021/12/23/product1.jpg" style="width: 244px; height: 245px;" />
+<pre>
+<strong>Input:</strong> grid = [[-1,-2,-3],[-2,-3,-3],[-3,-3,-2]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It is not possible to get non-negative product in the path from (0, 0) to (2, 2), so return -1.
+</pre>
+
+<p><strong class="example">
+
+### ✨ Example 2
+
+Example 2:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2021/12/23/product2.jpg" style="width: 244px; height: 245px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,-2,1],[1,-2,1],[3,-4,1]]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> Maximum non-negative product is shown (1 * 1 * -2 * -4 * 1 = 8).
+</pre>
+
+<p><strong class="example">
+
+### ✨ Example 3
+
+Example 3:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2021/12/23/product3.jpg" style="width: 164px; height: 165px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,3],[0,-4]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Maximum non-negative product is shown (1 * 0 * -4 = 0).
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == grid.length</code></li>
+	<li><code>n == grid[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 15</code></li>
+	<li><code>-4 &lt;= grid[i][j] &lt;= 4</code></li>
+</ul>
+
+---
+
+## ✅ Code (Java)
+
+```java
+class Solution {
+    public int maxProductPath(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        long MOD = 1000000007;
+
+        long[][] mx = new long[m][n];
+        long[][] mn = new long[m][n];
+
+        mx[0][0] = mn[0][0] = grid[0][0];
+
+        // first row
+        for (int j = 1; j < n; j++) {
+            mx[0][j] = mn[0][j] = mx[0][j - 1] * grid[0][j];
+        }
+
+        // first column
+        for (int i = 1; i < m; i++) {
+            mx[i][0] = mn[i][0] = mx[i - 1][0] * grid[i][0];
+        }
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                long x = grid[i][j];
+
+                long a = mx[i - 1][j] * x;
+                long b = mn[i - 1][j] * x;
+                long c = mx[i][j - 1] * x;
+                long d = mn[i][j - 1] * x;
+
+                mx[i][j] = Math.max(Math.max(a, b), Math.max(c, d));
+                mn[i][j] = Math.min(Math.min(a, b), Math.min(c, d));
+            }
+        }
+
+        long ans = mx[m - 1][n - 1];
+        if (ans < 0) return -1;
+        return (int)(ans % MOD);
+    }
+}
+```
+
+---
+
+## 🧪 Sample Test Case
+
+
+Example 1:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2021/12/23/product1.jpg" style="width: 244px; height: 245px;" />
+<pre>
+<strong>Input:</strong> grid = [[-1,-2,-3],[-2,-3,-3],[-3,-3,-2]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It is not possible to get non-negative product in the path from (0, 0) to (2, 2), so return -1.
+</pre>
+
+<p><strong class="example">
+
+
